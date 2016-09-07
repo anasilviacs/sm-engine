@@ -13,6 +13,7 @@ from datetime import datetime
 
 from pyspark import SparkContext, SparkConf
 from sm.engine.msm_basic.msm_basic_search import MSMBasicSearch
+from sm.engine.extra_feats.msm_extra_feats import MSMExtraFeats
 from sm.engine.dataset import Dataset
 from sm.engine.db import DB
 from sm.engine.fdr import FDR
@@ -147,7 +148,8 @@ class SearchJob(object):
             self.fdr.decoy_adduct_selection()
             self.formulas = FormulasSegm(self.job_id, self.sf_db_id, self.ds_config, self.db)
 
-            search_alg = MSMBasicSearch(self.sc, self.ds, self.formulas, self.fdr, self.ds_config)
+            # search_alg = MSMBasicSearch(self.sc, self.ds, self.formulas, self.fdr, self.ds_config)
+            search_alg = MSMExtraFeats(self.sc, self.ds, self.formulas, self.fdr, self.ds_config)
             sf_metrics_df, sf_iso_images = search_alg.search()
 
             search_results = SearchResults(self.sf_db_id, self.ds_id, self.job_id,
