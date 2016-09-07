@@ -1,0 +1,42 @@
+---
+
+batch:
+  - ds_name: MBa1s1
+    input_path: /home/compomics/public/METASPACE/good_data/MBa1s1/
+    ds_config: /home/compomics/public/METASPACE/good_data/config.json
+
+  - ds_name: MBa1s2
+    input_path: /home/compomics/public/METASPACE/good_data/MBa1s2/
+    ds_config: /home/compomics/public/METASPACE/good_data/config.json
+
+  - ds_name: MBa1s3
+    input_path: /home/compomics/public/METASPACE/good_data/MBa1s3/
+    ds_config: /home/compomics/public/METASPACE/good_data/config.json
+
+  - ds_name: MBa1s4
+    input_path: /home/compomics/public/METASPACE/good_data/MBa1s4/
+    ds_config: /home/compomics/public/METASPACE/good_data/config.json
+
+  - ds_name: MBa1s5
+    input_path: /home/compomics/public/METASPACE/good_data/MBa1s5/
+    ds_config: /home/compomics/public/METASPACE/good_data/config.json
+
+  - ds_name: MBa2s1
+    input_path: /home/compomics/public/METASPACE/good_data/MBa2s1/
+    ds_config: /home/compomics/public/METASPACE/good_data/config.json
+
+  - ds_name: MBa2s2
+    input_path: /home/compomics/public/METASPACE/good_data/MBa2s2/
+    ds_config: /home/compomics/public/METASPACE/good_data/config.json
+
+  - ds_name: MBa2s3
+    input_path: /home/compomics/public/METASPACE/good_data/MBa2s3/
+    ds_config: /home/compomics/public/METASPACE/good_data/config.json
+
+  - ds_name: MBa2s4
+    input_path: /home/compomics/public/METASPACE/good_data/MBa2s4/
+    ds_config: /home/compomics/public/METASPACE/good_data/config.json
+
+  - ds_name: MBa2s5
+    input_path: /home/compomics/public/METASPACE/good_data/MBa2s5/
+    ds_config: /home/compomics/public/METASPACE/good_data/config.json
