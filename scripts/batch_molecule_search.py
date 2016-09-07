@@ -31,7 +31,7 @@ if __name__ == "__main__":
                 inp_path = resolve_full_path(job['input_path'])
                 ds_conf_path = resolve_full_path(job['ds_config'])
 
-                cmd_check('python scripts/run_molecule_search.py {} {} {} --config {}',
+                cmd_check('python scripts/run_molecule_search.py {} {} --ds-config {} --config {}',
                           job['ds_name'],
                           inp_path,
                           ds_conf_path,
