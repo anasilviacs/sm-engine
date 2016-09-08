@@ -9,7 +9,7 @@ from sm.engine.util import SMConfig, logger, proj_root
 
 DS_CONFIG_SEL = "SELECT config FROM dataset WHERE name = %s"
 
-EXPORT_SEL = ("SELECT sf_db.name, ds.name, sf, m.adduct, ")
+EXPORT_SEL = ("SELECT sf_db.name, subst_ids::text::text, ds.name, sf, m.adduct, ")
 
 metrics = ['chaos', 'spatial', 'spectral', 'image_corr_01', 'image_corr_02', 'image_corr_03', 'image_corr_12',
            'image_corr_13', 'image_corr_23', 'snr', 'nnz_percent', 'peak_int_diff_1', 'peak_int_diff_2',
@@ -21,7 +21,7 @@ metrics = ['chaos', 'spatial', 'spectral', 'image_corr_01', 'image_corr_02', 'im
 for feat in metrics:
     EXPORT_SEL = EXPORT_SEL + ("(m.stats->'{}')::text::real AS {}, ".format(feat, feat))
 
-EXPORT_SEL = EXPORT_SEL + ("sigma, charge, pts_per_mz, tp.centr_mzs[1] "
+EXPORT_SEL = EXPORT_SEL + ("m.fdr::text::real, sigma, charge, pts_per_mz, tp.centr_mzs[1] "
               "FROM iso_image_metrics m "
               "JOIN formula_db sf_db ON sf_db.id = m.db_id "
               "JOIN agg_formula f ON f.id = m.sf_id AND sf_db.id = f.db_id "
@@ -49,9 +49,9 @@ if __name__ == "__main__":
     export_rs = db.select(EXPORT_SEL, ds_config['database']['name'], args.ds_name,
                           isotope_gen_config['isocalc_sigma'], charge, isotope_gen_config['isocalc_pts_per_mz'])
 
-    header = ','.join(['formula_db', 'ds_name', 'sf', 'adduct']) +',' + ','.join(metrics) + ',' + \
-             ','.join(['isocalc_sigma', 'isocalc_charge', 'isocalc_pts_per_mz', 'first_peak_mz']) + '\n'
+    header = ';'.join(['formula_db', 'db_ids', 'ds_name', 'sf', 'adduct']) +';' + ';'.join(metrics) + ';' + \
+             ';'.join(['fdr', 'isocalc_sigma', 'isocalc_charge', 'isocalc_pts_per_mz', 'first_peak_mz']) + '\n'
     with open(args.csv_path, 'w') as f:
         f.write(header)
-        f.writelines([','.join(map(str, row)) + '\n' for row in export_rs])
+        f.writelines([';'.join(map(str, row)) + '\n' for row in export_rs])
     logger.info('Exported all search results for "%s" dataset into "%s" file', args.ds_name, args.csv_path)
