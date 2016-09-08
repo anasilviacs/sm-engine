@@ -164,7 +164,7 @@ def get_compute_img_metrics(empty_matrix, img_gen_conf):
             measures.pattern_match = isotope_pattern_match(iso_imgs_flat, sf_ints)
             measures.image_corr = isotope_image_correlation(iso_imgs_flat, weights=sf_ints[1:])
             moc = measure_of_chaos(iso_imgs[0], img_gen_conf['nlevels'])
-            measures.chaos = 0 if np.isclose(moc, 1.0) else moc  # TODO remove this guy. Maybe do this for the
+            measures.chaos = 0 if np.isclose(moc, 1.0) else moc  # TODO test removing this line
             # correlations?
             # ...
             measures.image_corr_01, measures.image_corr_02, measures.image_corr_03, measures.image_corr_12, \

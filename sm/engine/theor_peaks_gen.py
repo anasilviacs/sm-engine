@@ -26,7 +26,7 @@ class TheorPeaksGenerator(object):
     ds_config : dict
         Dataset config
     """
-    def __init__(self, sc, sm_config, ds_config):  # TODO: replace sm_config with db
+    def __init__(self, sc, sm_config, ds_config):
         self.sc = sc
         self.sm_config = sm_config
         self.ds_config = ds_config

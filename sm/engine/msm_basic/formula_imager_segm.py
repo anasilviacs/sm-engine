@@ -123,7 +123,7 @@ def find_mz_segments(spectra, sf_peak_df, ppm):
 
 def gen_iso_peak_images(sc, ds, sf_peak_df, segm_spectra, peaks_per_sp_segm, ppm):
     sp_indexes_brcast = sc.broadcast(ds.norm_img_pixel_inds)
-    sf_peak_df_brcast = sc.broadcast(sf_peak_df)  # TODO: replace broadcast variable with rdd and cogroup
+    sf_peak_df_brcast = sc.broadcast(sf_peak_df)
     nrows, ncols = ds.get_dims()
     iso_peak_images = (segm_spectra.flatMap(lambda (s_i, sp_segm):
                                             _gen_iso_images(sp_segm, sp_indexes_brcast.value, sf_peak_df_brcast.value,
@@ -138,7 +138,6 @@ def gen_iso_sf_images(iso_peak_images, shape):
     return iso_sf_images
 
 
-# TODO: add tests
 def compute_sf_images(sc, ds, sf_peak_df, ppm):
     """ Compute isotopic images for all formula
 

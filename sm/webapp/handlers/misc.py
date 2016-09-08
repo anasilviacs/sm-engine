@@ -104,7 +104,6 @@ class SpectrumLineChartHandler(tornado.web.RequestHandler):
     def db(self):
         return self.application.db
 
-    # TODO: move metric calculation logic to the engine
     @staticmethod
     def sample_centr_ints_norm(sample_ints_list):
         first_peak_inds = set(sample_ints_list[0]['pixel_inds'])

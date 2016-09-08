@@ -11,7 +11,6 @@ THEOR_PEAKS_TARGET_ADD_SEL = (
     'AND charge = %s '
     'ORDER BY sf_id, adduct')
 
-# TODO: target_decoy_add table is getting too big
 THEOR_PEAKS_DECOY_ADD_SEL = (
     'SELECT DISTINCT p.sf_id, decoy_add as adduct, centr_mzs[1:%s], centr_ints[1:%s] '
     'FROM theor_peaks p '

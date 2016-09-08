@@ -82,7 +82,6 @@ class SearchJob(object):
         self.db = DB(self.sm_config['db'])
         self.sf_db_id = self.db.select_one(DB_ID_SEL, self.ds_config['database']['name'])[0]
 
-    # TODO: add tests
     def store_job_meta(self):
         """ Store search job metadata in the database """
         logger.info('Storing job metadata')
@@ -155,7 +154,6 @@ class SearchJob(object):
             search_results = SearchResults(self.sf_db_id, self.ds_id, self.job_id,
                                            self.ds_name, self.formulas.get_sf_adduct_peaksn(),
                                            self.db, self.sm_config, self.ds_config)
-            # TODO: report number of molecule images saved to the DB
             search_results.sf_metrics_df = sf_metrics_df
             search_results.sf_iso_images = sf_iso_images
             search_results.metrics = search_alg.metrics
