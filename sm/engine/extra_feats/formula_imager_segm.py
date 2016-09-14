@@ -8,9 +8,9 @@ from scipy.sparse import coo_matrix
 
 def _estimate_mz_workload(spectra_sample, sf_peak_df, bins=1000):
     mz_arr = np.sort(np.concatenate(map(lambda sp: sp[1], spectra_sample)))
-    spectrum_mz_freq, mz_grid = np.histogram(mz_arr, bins=bins, range=(mz_arr.min(), mz_arr.max()))
-    sf_peak_mz_freq, _ = np.histogram(sf_peak_df.mz, bins=bins, range=(mz_arr.min(), mz_arr.max()))
-    workload_per_mz = spectrum_mz_freq * sf_peak_mz_freq
+    spectrum_mz_freq, mz_grid = np.histogram(mz_arr, bins=bins, range=(np.nanmin(mz_arr), np.nanmax(mz_arr)))
+    # sf_peak_mz_freq, _ = np.histogram(sf_peak_df.mz, bins=bins, range=(mz_arr.min(), mz_arr.max()))
+    workload_per_mz = spectrum_mz_freq  # * sf_peak_mz_freq
     return mz_grid, workload_per_mz
 
 
@@ -89,7 +89,7 @@ def _gen_iso_images(spectra_it, sp_indexes, sf_peak_df, nrows, ncols, ppm, peaks
                         row_inds = idx / ncols
                         col_inds = idx % ncols
                         yield (sf_peak_df.sf_id.iloc[i], sf_peak_df.adduct.iloc[i]),\
-                              (sf_peak_df.peak_i.iloc[i], coo_matrix((data, (row_inds, col_inds)), shape=(nrows, ncols))) # TODO: save the measured mz (sp_df.mz[l:u]) besides the theoretical
+                              (sf_peak_df.peak_i.iloc[i], coo_matrix((data, (row_inds, col_inds)), shape=(nrows, ncols)))
 
 
 def _img_pairs_to_list(pairs, shape):
@@ -115,7 +115,7 @@ def find_mz_segments(spectra, sf_peak_df, ppm):
     peaks_per_sp = max(1, int(np.mean([t[1].shape[0] for t in spectra_sample])))
 
     mz_grid, workload_per_mz = _estimate_mz_workload(spectra_sample, sf_peak_df, bins=10000)
-    plan_mz_segm_n = max(64, int(peaks_per_sp / 100))
+    plan_mz_segm_n = max(64, int(peaks_per_sp / 10))
     mz_bounds = _find_mz_bounds(mz_grid, workload_per_mz, n=plan_mz_segm_n)
     mz_segments = _create_mz_segments(mz_bounds, ppm=ppm)
     return spectra_sample, mz_segments, peaks_per_sp
