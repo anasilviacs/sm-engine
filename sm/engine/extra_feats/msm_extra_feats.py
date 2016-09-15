@@ -8,7 +8,14 @@ class MSMExtraFeats(SearchAlgorithm):
 
     def __init__(self, sc, ds, formulas, fdr, ds_config):
         super(MSMExtraFeats, self).__init__(sc, ds, formulas, fdr, ds_config)
-        self.metrics = ['chaos', 'spatial', 'spectral', 'image_corr_01', 'image_corr_02', 'image_corr_03', 'image_corr_12', 'image_corr_13', 'image_corr_23', 'snr', 'nnz_percent', 'peak_int_diff_1', 'peak_int_diff_2', 'peak_int_diff_3', 'peak_int_diff_4', 'peak_int_diff_5', 'quart_1', 'quart_2', 'quart_3', 'ratio_peak_01', 'ratio_peak_02', 'ratio_peak_03', 'ratio_peak_12', 'ratio_peak_13', 'ratio_peak_23', 'percentile_10', 'percentile_20', 'percentile_30', 'percentile_40', 'percentile_50', 'percentile_60', 'percentile_70', 'percentile_80', 'percentile_90']
+        self.metrics = ['chaos', 'spatial', 'spectral', 'image_corr_01', 'image_corr_02', 'image_corr_03',
+                        'image_corr_12', 'image_corr_13', 'image_corr_23', 'snr', 'nnz_percent', 'peak_int_diff_1',
+                        'peak_int_diff_2', 'peak_int_diff_3', 'peak_int_diff_4', 'peak_int_diff_5', 'quart_1',
+                        'quart_2', 'quart_3', 'ratio_peak_01', 'ratio_peak_02', 'ratio_peak_03', 'ratio_peak_12',
+                        'ratio_peak_13', 'ratio_peak_23', 'percentile_10', 'percentile_20', 'percentile_30',
+                        'percentile_40', 'percentile_50', 'percentile_60', 'percentile_70', 'percentile_80',
+                        'percentile_90']
+        self.max_fdr = 0.5
 
     def search(self):
         logger.info('Running molecule search')
@@ -17,8 +24,7 @@ class MSMExtraFeats(SearchAlgorithm):
         all_sf_metrics_df = self.calc_metrics(sf_images)
         sf_metrics_fdr_df = self.estimate_fdr(all_sf_metrics_df)
         sf_metrics_fdr_df = self.filter_sf_metrics(sf_metrics_fdr_df)
-
-        return sf_metrics_fdr_df, sf_images
+        return sf_metrics_fdr_df, self.filter_sf_images(sf_images, sf_metrics_fdr_df)
 
     def calc_metrics(self, sf_images):
         all_sf_metrics_df = sf_image_metrics(sf_images, self.sc, self.formulas, self.ds, self.ds_config)
@@ -29,5 +35,4 @@ class MSMExtraFeats(SearchAlgorithm):
         return sf_metrics_fdr_df
 
     def filter_sf_metrics(self, sf_metrics_df):
-        sf_metrics_df = sf_metrics_df.drop_duplicates()
-        return sf_metrics_df
+        return sf_metrics_df#[sf_metrics_df.fdr <= self.max_fdr]
