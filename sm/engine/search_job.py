@@ -147,8 +147,8 @@ class SearchJob(object):
             self.fdr.decoy_adduct_selection()
             self.formulas = FormulasSegm(self.job_id, self.sf_db_id, self.ds_config, self.db)
 
-            search_alg = MSMBasicSearch(self.sc, self.ds, self.formulas, self.fdr, self.ds_config)
-            # search_alg = MSMExtraFeats(self.sc, self.ds, self.formulas, self.fdr, self.ds_config)
+            # search_alg = MSMBasicSearch(self.sc, self.ds, self.formulas, self.fdr, self.ds_config)
+            search_alg = MSMExtraFeats(self.sc, self.ds, self.formulas, self.fdr, self.ds_config)
             sf_metrics_df, sf_iso_images = search_alg.search()
 
             search_results = SearchResults(self.sf_db_id, self.ds_id, self.job_id,

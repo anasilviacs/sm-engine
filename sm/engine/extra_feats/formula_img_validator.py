@@ -50,12 +50,12 @@ class ImgMeasures(object):
         self.chaos = chaos
         self.image_corr = image_corr
         self.pattern_match = pattern_match
-        self.image_corr_1 = image_corr_01
-        self.image_corr_2 = image_corr_02
-        self.image_corr_3 = image_corr_03
-        self.image_corr_4 = image_corr_12
-        self.image_corr_4 = image_corr_13
-        self.image_corr_4 = image_corr_23
+        self.image_corr_01 = image_corr_01
+        self.image_corr_02 = image_corr_02
+        self.image_corr_03 = image_corr_03
+        self.image_corr_12 = image_corr_12
+        self.image_corr_13 = image_corr_13
+        self.image_corr_23 = image_corr_23
         self.snr = snr
         self.nnz_percent = nnz_percent
         self.peak_int_diff_1 = peak_int_diff_1
@@ -170,10 +170,10 @@ def get_compute_img_metrics(sample_area_mask, empty_matrix, img_gen_conf):
         measures = ImgMeasures(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                                0, 0, 0, 0)
         if len(iso_imgs) > 0:
+            measures.pattern_match = isotope_pattern_match(iso_imgs_flat, sf_ints)
+            measures.image_corr = isotope_image_correlation(iso_imgs_flat, weights=sf_ints[1:])
             moc = measure_of_chaos(iso_imgs[0], img_gen_conf['nlevels'])
             measures.chaos = 0 if np.isclose(moc, 1.0) else moc
-            measures.image_corr = isotope_image_correlation(iso_imgs_flat, weights=sf_ints[1:])
-            measures.pattern_match = isotope_pattern_match(iso_imgs_flat, sf_ints)
             measures.image_corr_01, measures.image_corr_02, measures.image_corr_03, measures.image_corr_12, \
             measures.image_corr_13, measures.image_corr_23 = isotope_image_correlation_sd(iso_imgs_flat)
             measures.snr = snr_img(iso_imgs[0])
@@ -245,8 +245,9 @@ def sf_image_metrics_est_fdr(sf_metrics_df, formulas, fdr):
                 'ratio_peak_01', 'ratio_peak_02', 'ratio_peak_03', 'ratio_peak_12', 'ratio_peak_13', 'ratio_peak_23',
                 'percentile_10', 'percentile_20', 'percentile_30', 'percentile_40', 'percentile_50', 'percentile_60',
                 'percentile_70', 'percentile_80', 'percentile_90', 'msm', 'fdr']
-    df = sf_metrics_df.join(sf_adduct_fdr, how='outer')[colnames]
-    df = df.fillna(0)
+    # return sf_metrics_df.join(sf_adduct_fdr, how='inner')[colnames]
+    df = sf_metrics_df.join(sf_adduct_fdr, how='outer')#[colnames]
+    df = df.fillna(value=-0)
     return df
 
 # def filter_sf_metrics(sf_metrics_df):
