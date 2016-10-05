@@ -9,7 +9,7 @@ from sm.engine.util import SMConfig, logger, proj_root
 
 DS_CONFIG_SEL = "SELECT config FROM dataset WHERE name = %s"
 
-EXPORT_SEL = ("SELECT sf_db.name, subst_ids::text::text, ds.name, sf, m.adduct, ")
+EXPORT_SEL = ("SELECT sf_db.name, subst_ids::text::text, names, sf, m.adduct, ")
 
 metrics = ['chaos', 'spatial', 'spectral', 'image_corr_01', 'image_corr_02', 'image_corr_03', 'image_corr_12',
            'image_corr_13', 'image_corr_23', 'snr', 'nnz_percent', 'peak_int_diff_1', 'peak_int_diff_2',
@@ -49,9 +49,9 @@ if __name__ == "__main__":
     export_rs = db.select(EXPORT_SEL, ds_config['database']['name'], args.ds_name,
                           isotope_gen_config['isocalc_sigma'], charge, isotope_gen_config['isocalc_pts_per_mz'])
 
-    header = ';'.join(['formula_db', 'db_ids', 'ds_name', 'sf', 'adduct']) +';' + ';'.join(metrics) + ';' + \
-             ';'.join(['fdr', 'isocalc_sigma', 'isocalc_charge', 'isocalc_pts_per_mz', 'first_peak_mz']) + '\n'
+    header = '\t'.join(['formula_db', 'db_ids', 'sf_name', 'sf', 'adduct']) +'\t' + '\t'.join(metrics) + '\t' + \
+             '\t'.join(['fdr', 'isocalc_sigma', 'isocalc_charge', 'isocalc_pts_per_mz', 'first_peak_mz']) + '\n'
     with open(args.csv_path, 'w') as f:
         f.write(header)
-        f.writelines([';'.join(map(str, row)) + '\n' for row in export_rs])
+        f.writelines(['\t'.join(map(str, row)) + '\n' for row in export_rs])
     logger.info('Exported all search results for "%s" dataset into "%s" file', args.ds_name, args.csv_path)
