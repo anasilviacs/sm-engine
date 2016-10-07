@@ -80,10 +80,10 @@ def spectra_int_diff(images_flat, theor_iso_intensities):
     theor_iso_intensities /= np.linalg.norm(theor_iso_intensities)
     int_diff = image_ints - theor_iso_intensities
 
-    while len(int_diff) < 5:
-        int_diff = np.append(int_diff, 1.01) # in the case where one of the peaks is missing the difference is maximum
+    while len(int_diff) < 4:
+        int_diff = np.append(int_diff, 2.01) # in the case where one of the peaks is missing the difference is maximum
 
-    return int_diff[:5]
+    return int_diff[:4]
 
 
 def quartile_pxl(image):
