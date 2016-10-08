@@ -166,7 +166,7 @@ def get_compute_img_metrics(sample_area_mask, empty_matrix, img_gen_conf):
                 smoothing.hot_spot_removal(img)
 
         measures = ImgMeasures(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                               0, 0, 0, 0)
+                               0, 0, 0)
         if len(iso_imgs) > 0:
             measures.pattern_match = isotope_pattern_match(iso_imgs_flat, sf_ints)
             measures.image_corr = isotope_image_correlation(iso_imgs_flat, weights=sf_ints[1:])
