@@ -21,7 +21,7 @@ metrics = ['chaos', 'spatial', 'spectral', 'image_corr_01', 'image_corr_02', 'im
 for feat in metrics:
     EXPORT_SEL = EXPORT_SEL + ("(m.stats->'{}')::text::real AS {}, ".format(feat, feat))
 
-EXPORT_SEL = EXPORT_SEL + ("m.fdr::text::real, sigma, charge, pts_per_mz, tp.centr_mzs[1] "
+EXPORT_SEL = EXPORT_SEL + ("m.fdr::text::real, m.msm::text::real, sigma, charge, pts_per_mz, tp.centr_mzs[1] "
               "FROM iso_image_metrics m "
               "JOIN formula_db sf_db ON sf_db.id = m.db_id "
               "JOIN agg_formula f ON f.id = m.sf_id AND sf_db.id = f.db_id "
@@ -50,7 +50,7 @@ if __name__ == "__main__":
                           isotope_gen_config['isocalc_sigma'], charge, isotope_gen_config['isocalc_pts_per_mz'])
 
     header = '\t'.join(['formula_db', 'db_ids', 'sf_name', 'sf', 'adduct']) +'\t' + '\t'.join(metrics) + '\t' + \
-             '\t'.join(['fdr', 'isocalc_sigma', 'isocalc_charge', 'isocalc_pts_per_mz', 'first_peak_mz']) + '\n'
+             '\t'.join(['fdr', 'msm', 'isocalc_sigma', 'isocalc_charge', 'isocalc_pts_per_mz', 'first_peak_mz']) + '\n'
     with open(args.csv_path, 'w') as f:
         f.write(header)
         f.writelines(['\t'.join(map(str, row)) + '\n' for row in export_rs])
