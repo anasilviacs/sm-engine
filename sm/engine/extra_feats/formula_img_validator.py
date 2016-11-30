@@ -191,7 +191,8 @@ def get_compute_img_metrics(sample_area_mask, empty_matrix, img_gen_conf):
 
 def _calculate_msm(sf_metrics_df):
     # return sf_metrics_df.chaos * sf_metrics_df.spatial * sf_metrics_df.spectral
-    return sf_metrics_df.snr * sf_metrics_df.peak_int_diff_3 * sf_metrics_df.percentile_40
+    # return sf_metrics_df.snr * sf_metrics_df.peak_int_diff_3 * sf_metrics_df.percentile_40
+    return -(-20*sf_metrics_df.snr + 5*(1-sf_metrics_df.nnz_percent) + sf_metrics_df.percentile_80)
 
 
 def sf_image_metrics(sf_images, sc, formulas, ds, ds_config):
