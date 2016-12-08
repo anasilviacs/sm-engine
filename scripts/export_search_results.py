@@ -12,7 +12,7 @@ DS_CONFIG_SEL = "SELECT config FROM dataset WHERE name = %s"
 EXPORT_SEL = ("SELECT sf_db.name, subst_ids::text::text, names, sf, m.adduct, ")
 
 metrics = ['chaos', 'spatial', 'spectral', 'image_corr_01', 'image_corr_02', 'image_corr_03', 'image_corr_12',
-           'image_corr_13', 'image_corr_23', 'snr', 'nnz_percent', 'peak_int_diff_0', 'peak_int_diff_1',
+           'image_corr_13', 'image_corr_23', 'snr', 'percent_0s', 'peak_int_diff_0', 'peak_int_diff_1',
            'peak_int_diff_2', 'peak_int_diff_3', 'quart_1', 'quart_2', 'quart_3', 'ratio_peak_01',
            'ratio_peak_02', 'ratio_peak_03', 'ratio_peak_12', 'ratio_peak_13', 'ratio_peak_23', 'percentile_10',
            'percentile_20', 'percentile_30', 'percentile_40', 'percentile_50', 'percentile_60', 'percentile_70',

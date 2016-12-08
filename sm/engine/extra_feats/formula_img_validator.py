@@ -8,7 +8,7 @@ from operator import mul, add
 from pyImagingMSpec.image_measures import isotope_image_correlation, isotope_pattern_match
 # from pyImagingMSpec.image_measures import measure_of_chaos
 from cpyImagingMSpec import measure_of_chaos
-from new_features import isotope_image_correlation_sd, snr_img, percent_nnz, spectra_int_diff, quartile_pxl, decile_pxl, \
+from new_features import isotope_image_correlation_sd, snr_img, percent_zero, spectra_int_diff, quartile_pxl, decile_pxl, \
     ratio_peaks
 from pyImagingMSpec import smoothing
 
@@ -28,8 +28,8 @@ class ImgMeasures(object):
         correlations between image pairs (rather than average)
     snr: float
         signal to noise ratio
-    nnz_percent: float
-        percent of non-zero values
+    percent_0s: float
+        percent of zero values
     peak_int_diff_0/.../4:
         difference between the measured and the theoretical intensity of the first 5 isotopic peaks
     quart_1/2/3:
@@ -41,7 +41,7 @@ class ImgMeasures(object):
     """
 
     def __init__(self, chaos, image_corr, pattern_match, image_corr_01, image_corr_02, image_corr_03, image_corr_12,
-                 image_corr_13, image_corr_23, snr, nnz_percent, peak_int_diff_0, peak_int_diff_1, peak_int_diff_2,
+                 image_corr_13, image_corr_23, snr, percent_0s, peak_int_diff_0, peak_int_diff_1, peak_int_diff_2,
                  peak_int_diff_3, quart_1, quart_2, quart_3, ratio_peak_01, ratio_peak_02, ratio_peak_03, ratio_peak_12,
                  ratio_peak_13, ratio_peak_23, percentile_10, percentile_20, percentile_30, percentile_40,
                  percentile_50, percentile_60, percentile_70, percentile_80, percentile_90):
@@ -56,7 +56,7 @@ class ImgMeasures(object):
         self.image_corr_13 = image_corr_13
         self.image_corr_23 = image_corr_23
         self.snr = snr
-        self.nnz_percent = nnz_percent
+        self.percent_0s = percent_0s
         self.peak_int_diff_0 = peak_int_diff_0
         self.peak_int_diff_1 = peak_int_diff_1
         self.peak_int_diff_2 = peak_int_diff_2
@@ -110,7 +110,7 @@ class ImgMeasures(object):
                     self._replace_nan(self.image_corr_13),
                     self._replace_nan(self.image_corr_23),
                     self._replace_nan(self.snr),
-                    self._replace_nan(self.nnz_percent),
+                    self._replace_nan(self.percent_0s),
                     self._replace_nan(self.peak_int_diff_0),
                     self._replace_nan(self.peak_int_diff_1),
                     self._replace_nan(self.peak_int_diff_2),
@@ -134,7 +134,7 @@ class ImgMeasures(object):
                     self._replace_nan(self.percentile_80),
                     self._replace_nan(self.percentile_90),)
         else:
-            return self.chaos, self.image_corr, self.pattern_match, self.image_corr_01, self.image_corr_02, self.image_corr_03, self.image_corr_12, self.image_corr_13, self.image_corr_23, self.snr, self.nnz_percent, self.peak_int_diff_0, self.peak_int_diff_1, self.peak_int_diff_2, self.peak_int_diff_3, self.quart_1, self.quart_2, self.quart_3, self.ratio_peak_01, self.ratio_peak_02, self.ratio_peak_0, self.ratio_peak_12, self.ratio_peak_13, self.ratio_peak_23, self.percentile_10, self.percentile_20, self.percentile_30, self.percentile_40, self.percentile_50, self.percentile_60, self.percentile_70, self.percentile_80, self.percentile_90
+            return self.chaos, self.image_corr, self.pattern_match, self.image_corr_01, self.image_corr_02, self.image_corr_03, self.image_corr_12, self.image_corr_13, self.image_corr_23, self.snr, self.percent_0s, self.peak_int_diff_0, self.peak_int_diff_1, self.peak_int_diff_2, self.peak_int_diff_3, self.quart_1, self.quart_2, self.quart_3, self.ratio_peak_01, self.ratio_peak_02, self.ratio_peak_0, self.ratio_peak_12, self.ratio_peak_13, self.ratio_peak_23, self.percentile_10, self.percentile_20, self.percentile_30, self.percentile_40, self.percentile_50, self.percentile_60, self.percentile_70, self.percentile_80, self.percentile_90
 
 
 
@@ -174,7 +174,7 @@ def get_compute_img_metrics(sample_area_mask, empty_matrix, img_gen_conf):
             measures.image_corr_01, measures.image_corr_02, measures.image_corr_03, measures.image_corr_12, \
             measures.image_corr_13, measures.image_corr_23 = isotope_image_correlation_sd(iso_imgs_flat)
             measures.snr = snr_img(iso_imgs[0])
-            measures.nnz_percent = percent_nnz(iso_imgs[0])
+            measures.percent_0s = percent_nnz(iso_imgs[0])
             measures.peak_int_diff_0, measures.peak_int_diff_1, measures.peak_int_diff_2, measures.peak_int_diff_3 = spectra_int_diff(iso_imgs_flat, sf_ints)
             measures.quart_1, measures.quart_2, measures.quart_3 = quartile_pxl(iso_imgs[0])
             measures.ratio_peak_01, measures.ratio_peak_02, measures.ratio_peak_03, measures.ratio_peak_12, \
@@ -214,7 +214,7 @@ def sf_image_metrics(sf_images, sc, formulas, ds, ds_config):
     sf_add_ints_map_brcast = sc.broadcast(formulas.get_sf_peak_ints())
     # sf_peak_ints_brcast = sc.broadcast(formulas.get_sf_peak_ints())
     colnames = ['sf_id', 'adduct', 'chaos', 'spatial', 'spectral', 'image_corr_01', 'image_corr_02', 'image_corr_03',
-                'image_corr_12', 'image_corr_13', 'image_corr_23', 'snr', 'nnz_percent', 'peak_int_diff_0',
+                'image_corr_12', 'image_corr_13', 'image_corr_23', 'snr', 'percent_0s', 'peak_int_diff_0',
                 'peak_int_diff_1', 'peak_int_diff_2', 'peak_int_diff_3', 'quart_1', 'quart_2',
                 'quart_3', 'ratio_peak_01', 'ratio_peak_02', 'ratio_peak_03', 'ratio_peak_12', 'ratio_peak_13',
                 'ratio_peak_23', 'percentile_10', 'percentile_20', 'percentile_30', 'percentile_40', 'percentile_50',
@@ -236,7 +236,7 @@ def sf_image_metrics_est_fdr(sf_metrics_df, formulas, fdr):
     sf_adduct_fdr = fdr.estimate_fdr(sf_msm_df)
 
     colnames = ['chaos', 'spatial', 'spectral', 'image_corr_01', 'image_corr_02', 'image_corr_03', 'image_corr_12',
-                'image_corr_13', 'image_corr_23', 'snr', 'nnz_percent', 'peak_int_diff_0', 'peak_int_diff_1',
+                'image_corr_13', 'image_corr_23', 'snr', 'percent_0s', 'peak_int_diff_0', 'peak_int_diff_1',
                 'peak_int_diff_2', 'peak_int_diff_3', 'quart_1', 'quart_2', 'quart_3',
                 'ratio_peak_01', 'ratio_peak_02', 'ratio_peak_03', 'ratio_peak_12', 'ratio_peak_13', 'ratio_peak_23',
                 'percentile_10', 'percentile_20', 'percentile_30', 'percentile_40', 'percentile_50', 'percentile_60',

@@ -44,16 +44,16 @@ def snr_img(image):
     return snr
 
 
-def percent_nnz(image):
+def percent_zero(image):
     """
-    Percentage of non-zero values in one image
+    Percentage of zero values in one image
 
     :param image: first isotopic image as 2d array
     :return number of non-zero pixels over the total number of pixels
     :rtype float
     """
 
-    percent = float(np.count_nonzero(image)) / float(image.shape[0] * image.shape[1])
+    percent = 1.0 - (float(np.count_nonzero(image)) / float(image.shape[0] * image.shape[1]))
     return percent
 
 
