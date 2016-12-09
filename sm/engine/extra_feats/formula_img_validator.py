@@ -247,9 +247,8 @@ def sf_image_metrics_est_fdr(sf_metrics_df, formulas, fdr):
     # df = sf_metrics_df.join(sf_adduct_fdr, how='outer')[colnames]
 
     df = sf_msm_df.join(sf_adduct_fdr).join(sf_metrics_df.drop('msm', axis=1))
-    filldict = {key: -999 for key in df.columns}
-    filldict['fdr'] = 1
-    df = df.fillna(filldict)
+    df = df.fillna({'fdr': 1})
+    df = df.dropna(axis=0, how='any')
     return df
 
 # def filter_sf_metrics(sf_metrics_df):
