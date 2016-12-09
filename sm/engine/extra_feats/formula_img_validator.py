@@ -174,7 +174,7 @@ def get_compute_img_metrics(sample_area_mask, empty_matrix, img_gen_conf):
             measures.image_corr_01, measures.image_corr_02, measures.image_corr_03, measures.image_corr_12, \
             measures.image_corr_13, measures.image_corr_23 = isotope_image_correlation_sd(iso_imgs_flat)
             measures.snr = snr_img(iso_imgs[0])
-            measures.percent_0s = percent_nnz(iso_imgs[0])
+            measures.percent_0s = percent_zero(iso_imgs[0])
             measures.peak_int_diff_0, measures.peak_int_diff_1, measures.peak_int_diff_2, measures.peak_int_diff_3 = spectra_int_diff(iso_imgs_flat, sf_ints)
             measures.quart_1, measures.quart_2, measures.quart_3 = quartile_pxl(iso_imgs[0])
             measures.ratio_peak_01, measures.ratio_peak_02, measures.ratio_peak_03, measures.ratio_peak_12, \
