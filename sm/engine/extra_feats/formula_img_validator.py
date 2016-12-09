@@ -235,15 +235,21 @@ def sf_image_metrics_est_fdr(sf_metrics_df, formulas, fdr):
 
     sf_adduct_fdr = fdr.estimate_fdr(sf_msm_df)
 
-    colnames = ['chaos', 'spatial', 'spectral', 'image_corr_01', 'image_corr_02', 'image_corr_03', 'image_corr_12',
-                'image_corr_13', 'image_corr_23', 'snr', 'percent_0s', 'peak_int_diff_0', 'peak_int_diff_1',
-                'peak_int_diff_2', 'peak_int_diff_3', 'quart_1', 'quart_2', 'quart_3',
-                'ratio_peak_01', 'ratio_peak_02', 'ratio_peak_03', 'ratio_peak_12', 'ratio_peak_13', 'ratio_peak_23',
-                'percentile_10', 'percentile_20', 'percentile_30', 'percentile_40', 'percentile_50', 'percentile_60',
-                'percentile_70', 'percentile_80', 'percentile_90', 'msm', 'fdr']
+    # colnames = ['chaos', 'spatial', 'spectral', 'image_corr_01', 'image_corr_02', 'image_corr_03', 'image_corr_12',
+    #            'image_corr_13', 'image_corr_23', 'snr', 'percent_0s', 'peak_int_diff_0', 'peak_int_diff_1',
+    #            'peak_int_diff_2', 'peak_int_diff_3', 'quart_1', 'quart_2', 'quart_3',
+    #            'ratio_peak_01', 'ratio_peak_02', 'ratio_peak_03', 'ratio_peak_12', 'ratio_peak_13', 'ratio_peak_23',
+    #            'percentile_10', 'percentile_20', 'percentile_30', 'percentile_40', 'percentile_50', 'percentile_60',
+    #            'percentile_70', 'percentile_80', 'percentile_90', 'msm', 'fdr']
+
     # return sf_metrics_df.join(sf_adduct_fdr, how='inner')[colnames]
-    df = sf_metrics_df.join(sf_adduct_fdr, how='outer')#[colnames]
-    df = df.fillna(value=-0)
+
+    # df = sf_metrics_df.join(sf_adduct_fdr, how='outer')[colnames]
+
+    df = sf_msm_df.join(sf_adduct_fdr).join(sf_metrics_df.drop('msm', axis=1))
+    filldict = {key: -999 for key in df.columns}
+    filldict['fdr'] = 1
+    df = df.fillna(filldict)
     return df
 
 # def filter_sf_metrics(sf_metrics_df):
