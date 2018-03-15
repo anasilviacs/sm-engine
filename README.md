@@ -4,10 +4,10 @@
 This is an experimental fork of the main [sm-engine](https://github.com/METASPACE2020/sm-engine). This version adds additional features to each match and stores the metrics associated to decoy hits to the database. This version is necessary to run the rescoring pipeline found at [rescore-metabolites](https://github.com/anasilviacs/rescore-metabolites).
 
 
-# Spatial Metabolomics Engine [![Build Status](https://travis-ci.org/SpatialMetabolomics/SM_distributed.svg?branch=master)](https://travis-ci.org/SpatialMetabolomics/SM_distributed) [![Documentation Status](https://readthedocs.org/projects/sm-distributed/badge/?version=latest)](http://sm-distributed.readthedocs.org/en/latest/?badge=latest)
+## Spatial Metabolomics Engine [![Build Status](https://travis-ci.org/SpatialMetabolomics/SM_distributed.svg?branch=master)](https://travis-ci.org/SpatialMetabolomics/SM_distributed) [![Documentation Status](https://readthedocs.org/projects/sm-distributed/badge/?version=latest)](http://sm-distributed.readthedocs.org/en/latest/?badge=latest)
 High throughput molecules annotation for imaging mass spectrometry datasets.
 
-## Main Features
+### Main Features
 - centroided imzML files as input dataset files
 - Apache Spark based implementation for easy scaling from one machine to a cluster
 - Can be run in both local and distributed modes
@@ -15,8 +15,8 @@ High throughput molecules annotation for imaging mass spectrometry datasets.
 - Web application for browsing the search results
 - Fabric script for easy deploy and an AWS cluster start
 
-## Installation Manual
-### Spark Installation and Setup
+### Installation Manual
+#### Spark Installation and Setup
 
 Install Oracle Java 7
 
@@ -50,7 +50,7 @@ Install ssh daemon and create a public/private key pair
 	ssh localhost  # should work now
 	exit
     
-### Postgres Installation and Setup
+#### Postgres Installation and Setup
 More details can be found here https://help.ubuntu.com/community/PostgreSQL
 
 Server installation from a repository
@@ -69,7 +69,7 @@ Don't forget to restart the database server
 
     sudo service postgresql restart
 	
-### ElasticSearch Installation and Setup
+#### ElasticSearch Installation and Setup
 
 Download ElasticSearch deb package and install it
 
@@ -85,7 +85,7 @@ Restart ElasticSearch daemon
 
 `sudo service elasticsearch restart`
 
-### SM Engine Installation and Setup
+#### SM Engine Installation and Setup
 
 Install git, pip and libffi
 
@@ -138,7 +138,7 @@ Add environment variables to .bashrc
     echo 'export PYTHONPATH=$HOME/sm:/opt/dev/spark-1.5.2-bin-hadoop2.6/python:/opt/dev/spark-1.5.2-bin-hadoop2.6/python/build:$PYTHONPATH' >> ~/.bashrc
     source ~/.bashrc
     
-### Run Tests
+#### Run Tests
 Run the engine unit tests
 
 	cd ~/sm
@@ -166,7 +166,7 @@ for all HMDB molecules. In the end it should print
 
 If not something went wrong.
 
-## Run Molecule Annotation Job
+### Run Molecule Annotation Job
 Once you have successfully installed SM engine and its dependencies you can start a molecule annotation job with the command
     
     cd ~/sm
@@ -211,6 +211,6 @@ To explore the results of a job start the web application
 	
 Open [http://localhost:8090](http://localhost:8090) url address in a browser
 
-## License
+### License
 
 This project is licensed under Apache 2.0 license.
