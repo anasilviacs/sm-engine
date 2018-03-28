@@ -1,9 +1,5 @@
 # Spatial Metabolomics Engine
 
-## Modified version 
-This is an experimental fork of the main [sm-engine](https://github.com/METASPACE2020/sm-engine). This version adds additional features to each match and stores the metrics associated to decoy hits to the database. This version is necessary to run the rescoring pipeline found at [rescore-metabolites](https://github.com/anasilviacs/rescore-metabolites).
-
-
 ## Spatial Metabolomics Engine [![Build Status](https://travis-ci.org/SpatialMetabolomics/SM_distributed.svg?branch=master)](https://travis-ci.org/SpatialMetabolomics/SM_distributed) [![Documentation Status](https://readthedocs.org/projects/sm-distributed/badge/?version=latest)](http://sm-distributed.readthedocs.org/en/latest/?badge=latest)
 High throughput molecules annotation for imaging mass spectrometry datasets.
 
